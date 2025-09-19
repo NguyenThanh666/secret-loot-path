@@ -1,5 +1,4 @@
-import { useContract, useContractWrite, useContractRead } from 'wagmi';
-import { useAccount } from 'wagmi';
+import { useWriteContract, useReadContract, useAccount } from 'wagmi';
 import { useState } from 'react';
 
 // Contract ABI - This would be generated from the compiled contract
@@ -89,45 +88,27 @@ export const useSecretLootPath = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Contract instance
-  const contract = useContract({
-    address: CONTRACT_ADDRESS,
-    abi: SECRET_LOOT_PATH_ABI,
-  });
-
   // Contract write functions
-  const { writeAsync: createBattlePass } = useContractWrite({
-    address: CONTRACT_ADDRESS,
-    abi: SECRET_LOOT_PATH_ABI,
-    functionName: 'createBattlePass',
-  });
-
-  const { writeAsync: gainExperience } = useContractWrite({
-    address: CONTRACT_ADDRESS,
-    abi: SECRET_LOOT_PATH_ABI,
-    functionName: 'gainExperience',
-  });
-
-  const { writeAsync: claimReward } = useContractWrite({
-    address: CONTRACT_ADDRESS,
-    abi: SECRET_LOOT_PATH_ABI,
-    functionName: 'claimReward',
-  });
+  const { writeContractAsync: createBattlePass, isPending: isCreatingBattlePass } = useWriteContract();
+  const { writeContractAsync: gainExperience, isPending: isGainingExperience } = useWriteContract();
+  const { writeContractAsync: claimReward, isPending: isClaimingReward } = useWriteContract();
 
   // Contract read functions
-  const { data: battlePassInfo, refetch: refetchBattlePass } = useContractRead({
+  const { data: battlePassInfo, refetch: refetchBattlePass } = useReadContract({
     address: CONTRACT_ADDRESS,
     abi: SECRET_LOOT_PATH_ABI,
     functionName: 'getBattlePassInfo',
     args: [0], // This would be dynamic
   });
 
-  const { data: playerProgress, refetch: refetchPlayerProgress } = useContractRead({
+  const { data: playerProgress, refetch: refetchPlayerProgress } = useReadContract({
     address: CONTRACT_ADDRESS,
     abi: SECRET_LOOT_PATH_ABI,
     functionName: 'getPlayerProgress',
     args: [address],
-    enabled: !!address,
+    query: {
+      enabled: !!address,
+    },
   });
 
   // FHE-encrypted data functions
@@ -145,6 +126,9 @@ export const useSecretLootPath = () => {
       switch (dataType) {
         case 'experience':
           txHash = await gainExperience({
+            address: CONTRACT_ADDRESS,
+            abi: SECRET_LOOT_PATH_ABI,
+            functionName: 'gainExperience',
             args: [0, encryptedData, '0x'], // passId, encryptedData, proof
           });
           break;
@@ -153,6 +137,9 @@ export const useSecretLootPath = () => {
           break;
         case 'reward':
           txHash = await claimReward({
+            address: CONTRACT_ADDRESS,
+            abi: SECRET_LOOT_PATH_ABI,
+            functionName: 'claimReward',
             args: [0, 0], // rewardId, passId
           });
           break;
@@ -187,6 +174,9 @@ export const useSecretLootPath = () => {
       setError(null);
 
       const txHash = await createBattlePass({
+        address: CONTRACT_ADDRESS,
+        abi: SECRET_LOOT_PATH_ABI,
+        functionName: 'createBattlePass',
         args: [name, description, totalTiers, duration],
       });
 
@@ -210,6 +200,9 @@ export const useSecretLootPath = () => {
       
       // Store on-chain
       const txHash = await gainExperience({
+        address: CONTRACT_ADDRESS,
+        abi: SECRET_LOOT_PATH_ABI,
+        functionName: 'gainExperience',
         args: [passId, encryptedExperience, '0x'], // proof placeholder
       });
 
@@ -229,6 +222,9 @@ export const useSecretLootPath = () => {
       setError(null);
 
       const txHash = await claimReward({
+        address: CONTRACT_ADDRESS,
+        abi: SECRET_LOOT_PATH_ABI,
+        functionName: 'claimReward',
         args: [rewardId, passId],
       });
 
@@ -242,11 +238,8 @@ export const useSecretLootPath = () => {
   };
 
   return {
-    // Contract instance
-    contract,
-    
     // State
-    isLoading,
+    isLoading: isLoading || isCreatingBattlePass || isGainingExperience || isClaimingReward,
     error,
     
     // Data
