@@ -1,7 +1,41 @@
 import BattlePassTier from "./BattlePassTier";
 import seasonalBackground from "@/assets/seasonal-background.jpg";
+import { useSecretLootPath } from "@/hooks/useSecretLootPath";
+import { useAccount } from "wagmi";
+import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 const Dashboard = () => {
+  const { address, isConnected } = useAccount();
+  const { 
+    battlePassInfo, 
+    playerProgress, 
+    createNewBattlePass, 
+    gainExperienceEncrypted,
+    isLoading,
+    error 
+  } = useSecretLootPath();
+  
+  const [playerStats, setPlayerStats] = useState({
+    totalExperience: 0,
+    currentTier: 0,
+    rewardsClaimed: 0,
+    isActive: false
+  });
+
+  // Load player progress when connected
+  useEffect(() => {
+    if (isConnected && playerProgress) {
+      setPlayerStats({
+        totalExperience: playerProgress.totalExperience || 0,
+        currentTier: playerProgress.currentTier || 0,
+        rewardsClaimed: playerProgress.rewardsClaimed || 0,
+        isActive: playerProgress.isActive || false
+      });
+    }
+  }, [isConnected, playerProgress]);
   const battlePassTiers = [
     {
       tier: 1,
@@ -70,10 +104,51 @@ const Dashboard = () => {
             Season 1: Cyber Awakening
           </h2>
           <p className="text-xl text-muted-foreground mb-8">
-            Discover encrypted rewards hidden within each battle pass tier
+            Discover FHE-encrypted rewards hidden within each battle pass tier
           </p>
           
-          {/* Stats */}
+          {/* Player Stats (if connected) */}
+          {isConnected && (
+            <div className="mb-8">
+              <Card className="bg-card/50 backdrop-blur-lg border-border">
+                <CardHeader>
+                  <CardTitle className="text-center">Your Encrypted Progress</CardTitle>
+                  <CardDescription className="text-center">
+                    All data is encrypted using FHE technology
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-primary neon-text">
+                        {playerStats.totalExperience}
+                      </div>
+                      <div className="text-sm text-muted-foreground">Experience</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-secondary neon-text">
+                        {playerStats.currentTier}
+                      </div>
+                      <div className="text-sm text-muted-foreground">Current Tier</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-accent neon-text">
+                        {playerStats.rewardsClaimed}
+                      </div>
+                      <div className="text-sm text-muted-foreground">Rewards Claimed</div>
+                    </div>
+                    <div className="text-center">
+                      <Badge variant={playerStats.isActive ? "default" : "secondary"}>
+                        {playerStats.isActive ? "Active" : "Inactive"}
+                      </Badge>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+          
+          {/* Global Stats */}
           <div className="flex justify-center space-x-8 mb-8">
             <div className="text-center">
               <div className="text-2xl font-bold text-primary neon-text">156</div>
@@ -108,20 +183,66 @@ const Dashboard = () => {
         {/* Call to Action */}
         <div className="text-center bg-card/50 backdrop-blur-lg rounded-lg p-8 gaming-border">
           <h3 className="text-2xl font-bold text-foreground mb-4 neon-text">
-            Ready to Unlock the Mystery?
+            Ready to Unlock FHE-Encrypted Rewards?
           </h3>
           <p className="text-muted-foreground mb-6">
             Connect your wallet and start purchasing encrypted battle pass tiers. 
-            Each purchase reveals exclusive rewards that remain hidden until claimed.
+            All your gaming data is encrypted using FHE technology, ensuring complete privacy.
           </p>
-          <div className="flex justify-center space-x-4">
-            <button className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg font-semibold gaming-glow transition-all duration-300">
-              Get Started
-            </button>
-            <button className="border border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground px-8 py-3 rounded-lg font-semibold transition-all duration-300">
-              Learn More
-            </button>
+          
+          {/* FHE Features */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div className="bg-background/50 rounded-lg p-4">
+              <div className="text-lg font-semibold text-primary mb-2">🔒 FHE Encryption</div>
+              <div className="text-sm text-muted-foreground">Your data stays private</div>
+            </div>
+            <div className="bg-background/50 rounded-lg p-4">
+              <div className="text-lg font-semibold text-secondary mb-2">🎮 Zero-Knowledge Gaming</div>
+              <div className="text-sm text-muted-foreground">Play without revealing progress</div>
+            </div>
+            <div className="bg-background/50 rounded-lg p-4">
+              <div className="text-lg font-semibold text-accent mb-2">🏆 Encrypted Rewards</div>
+              <div className="text-sm text-muted-foreground">Rewards hidden until claimed</div>
+            </div>
           </div>
+          
+          <div className="flex justify-center space-x-4">
+            {isConnected ? (
+              <>
+                <Button 
+                  onClick={() => gainExperienceEncrypted(0, 100)}
+                  disabled={isLoading}
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg font-semibold gaming-glow transition-all duration-300"
+                >
+                  {isLoading ? "Encrypting..." : "Gain Experience (FHE)"}
+                </Button>
+                <Button 
+                  variant="outline"
+                  className="border border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground px-8 py-3 rounded-lg font-semibold transition-all duration-300"
+                >
+                  View Encrypted Progress
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 rounded-lg font-semibold gaming-glow transition-all duration-300">
+                  Connect Wallet to Start
+                </Button>
+                <Button 
+                  variant="outline"
+                  className="border border-secondary text-secondary hover:bg-secondary hover:text-secondary-foreground px-8 py-3 rounded-lg font-semibold transition-all duration-300"
+                >
+                  Learn About FHE
+                </Button>
+              </>
+            )}
+          </div>
+          
+          {error && (
+            <div className="mt-4 p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
+              <p className="text-destructive text-sm">{error}</p>
+            </div>
+          )}
         </div>
       </div>
     </main>

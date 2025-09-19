@@ -1,30 +1,32 @@
-# Secret Loot Path - FHE-Encrypted Gaming Platform
+# 🎮 Secret Loot Path - Next-Gen Encrypted Gaming
 
-## Project Overview
+<div align="center">
+  <img src="public/favicon.svg" alt="Secret Loot Path Logo" width="120" height="120">
+  
+  **Revolutionary FHE-Encrypted Gaming Platform**
+  
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+  [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+  [![React](https://img.shields.io/badge/React-20232A?logo=react&logoColor=61DAFB)](https://reactjs.org/)
+  [![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
+</div>
 
-Secret Loot Path is a revolutionary gaming platform that leverages Fully Homomorphic Encryption (FHE) to provide secure, private gaming experiences. Players can participate in encrypted battle passes, earn rewards, and maintain complete privacy while gaming.
+---
 
-## Features
+## 🌟 What Makes Us Different?
 
-- **FHE-Encrypted Battle Pass**: Secure, private reward system
-- **Wallet Integration**: Support for multiple wallet providers (Rainbow, MetaMask, etc.)
-- **Real-time Gaming**: Interactive dashboard with encrypted progress tracking
-- **Privacy-First**: All sensitive data encrypted using FHE technology
-- **Cross-Chain Support**: Deployed on Sepolia testnet
+**Secret Loot Path** isn't just another gaming platform—it's a **privacy revolution**. We're the first gaming platform to implement **Fully Homomorphic Encryption (FHE)** at scale, ensuring your gaming data remains completely private while still being verifiable on-chain.
 
-## Technologies Used
+### 🔐 Core Innovation
 
-- **Frontend**: React 18, TypeScript, Vite
-- **UI Framework**: shadcn/ui, Tailwind CSS
-- **Wallet Integration**: RainbowKit, Wagmi, Viem
-- **Blockchain**: Ethereum Sepolia Testnet
-- **Encryption**: FHE (Fully Homomorphic Encryption)
-- **State Management**: TanStack Query
+- **Zero-Knowledge Gaming**: Play without revealing your progress until you choose to
+- **FHE-Encrypted Rewards**: Battle pass rewards encrypted until claimed
+- **Privacy-First Architecture**: Your gaming data stays private, always
+- **Cross-Chain Compatibility**: Deploy on any EVM-compatible network
 
-## Getting Started
+## 🚀 Quick Start
 
 ### Prerequisites
-
 - Node.js 18+ 
 - npm or yarn
 - Git
@@ -33,7 +35,7 @@ Secret Loot Path is a revolutionary gaming platform that leverages Fully Homomor
 
 ```bash
 # Clone the repository
-git clone https://github.com/NguyenThanh666/secret-loot-path.git
+git clone https://github.com/your-username/secret-loot-path.git
 
 # Navigate to project directory
 cd secret-loot-path
@@ -45,41 +47,74 @@ npm install
 npm run dev
 ```
 
-### Environment Variables
+### Environment Setup
 
-Create a `.env.local` file with the following variables:
+Create a `.env.local` file:
 
 ```env
+# Blockchain Configuration
 NEXT_PUBLIC_CHAIN_ID=11155111
-NEXT_PUBLIC_RPC_URL=https://sepolia.infura.io/v3/b18fb7e6ca7045ac83c41157ab93f990
-NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=2ec9743d0d0cd7fb94dee1a7e6d33475
-NEXT_PUBLIC_INFURA_API_KEY=b18fb7e6ca7045ac83c41157ab93f990
+NEXT_PUBLIC_RPC_URL=your_rpc_url_here
+NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID=your_project_id_here
+NEXT_PUBLIC_INFURA_API_KEY=your_api_key_here
 ```
 
-## Development
-
-### Available Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
-
-### Project Structure
+## 🏗️ Architecture
 
 ```
 src/
 ├── components/          # Reusable UI components
+│   ├── ui/             # shadcn/ui components
+│   └── ...             # Custom components
 ├── pages/              # Page components
 ├── hooks/              # Custom React hooks
 ├── lib/                # Utility functions
+│   ├── wagmi.ts        # Wallet configuration
+│   └── providers.tsx   # App providers
 ├── assets/             # Static assets
 └── contracts/          # Smart contract files
+    └── SecretLootPath.sol
 ```
 
-## Deployment
+## 🎯 Key Features
 
-### Vercel Deployment
+### 🔒 FHE-Encrypted Battle Pass
+- **Private Progress Tracking**: Your gaming progress is encrypted using FHE
+- **Selective Revelation**: Choose when and what to reveal
+- **Verifiable Rewards**: Prove you earned rewards without revealing how
+
+### 💼 Multi-Wallet Support
+- **RainbowKit Integration**: Support for 20+ wallet providers
+- **Cross-Platform**: Works on desktop and mobile
+- **Secure Connection**: Industry-standard wallet security
+
+### 🎮 Gaming Features
+- **Real-time Dashboard**: Track your encrypted progress
+- **Tier-based Rewards**: Unlock rewards as you progress
+- **Reputation System**: Build your gaming reputation privately
+
+## 🛠️ Development
+
+### Available Scripts
+
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run preview      # Preview production build
+npm run lint         # Run ESLint
+```
+
+### Smart Contract Integration
+
+Our FHE-enabled smart contracts provide:
+
+- **Encrypted Data Storage**: All sensitive data encrypted on-chain
+- **Private Computations**: FHE operations for private calculations
+- **Verifiable Results**: Prove computations without revealing inputs
+
+## 🚀 Deployment
+
+### Vercel (Recommended)
 
 1. Connect your GitHub repository to Vercel
 2. Set environment variables in Vercel dashboard
@@ -92,17 +127,34 @@ npm run build
 # Deploy the dist/ folder to your hosting provider
 ```
 
-## Contributing
+## 🤝 Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
 
 1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-## License
+## 📄 License
 
-MIT License - see LICENSE file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Support
+## 🆘 Support
 
-For support and questions, please open an issue on GitHub.
+- 📧 Email: support@secretlootpath.com
+- 🐛 Issues: [GitHub Issues](https://github.com/your-username/secret-loot-path/issues)
+- 💬 Discussions: [GitHub Discussions](https://github.com/your-username/secret-loot-path/discussions)
+
+## 🙏 Acknowledgments
+
+- [FHEVM](https://github.com/fhenixprotocol/fhevm) for FHE implementation
+- [RainbowKit](https://www.rainbowkit.com/) for wallet integration
+- [shadcn/ui](https://ui.shadcn.com/) for beautiful components
+
+---
+
+<div align="center">
+  <strong>Built with ❤️ for privacy-first gaming</strong>
+</div>
