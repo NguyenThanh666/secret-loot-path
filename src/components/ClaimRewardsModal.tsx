@@ -212,7 +212,8 @@ export const ClaimRewardsModal = ({ isOpen, onClose, availableRewards }: ClaimRe
                             <CheckCircle className="h-4 w-4 text-green-500" />
                           )}
                         </div>
-                      </CardHeader>
+                      </div>
+                    </CardHeader>
                     
                     <CardContent className="pt-0">
                       <div className="flex items-center justify-between">
