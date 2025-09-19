@@ -1,4 +1,5 @@
 import BattlePassTier from "./BattlePassTier";
+import { ProgressTracker } from "./ProgressTracker";
 import seasonalBackground from "@/assets/seasonal-background.jpg";
 import { useSecretLootPath } from "@/hooks/useSecretLootPath";
 import { useAccount } from "wagmi";
@@ -165,20 +166,25 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Battle Pass Tiers Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {battlePassTiers.map((tier) => (
-            <BattlePassTier
-              key={tier.tier}
-              tier={tier.tier}
-              title={tier.title}
-              price={tier.price}
-              isRevealed={tier.isRevealed}
-              rewards={tier.rewards}
-              rarity={tier.rarity}
-            />
-          ))}
-        </div>
+                {/* Progress Tracker */}
+                <div className="mb-8">
+                  <ProgressTracker />
+                </div>
+
+                {/* Battle Pass Tiers Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                  {battlePassTiers.map((tier) => (
+                    <BattlePassTier
+                      key={tier.tier}
+                      tier={tier.tier}
+                      title={tier.title}
+                      price={tier.price}
+                      isRevealed={tier.isRevealed}
+                      rewards={tier.rewards}
+                      rarity={tier.rarity}
+                    />
+                  ))}
+                </div>
 
         {/* Call to Action */}
         <div className="text-center bg-card/50 backdrop-blur-lg rounded-lg p-8 gaming-border">
